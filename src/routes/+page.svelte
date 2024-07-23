@@ -1,2 +1,11 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+</script>
+
+<!-- {#each Object.entries(FeatherIcons) as [name, icon]}
+  <div>
+    <svelte:component this={icon} />
+    {name}
+  </div>
+{/each} -->
+
+<!-- <p class="red">Hello world</p> -->

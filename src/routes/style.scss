@@ -1,0 +1,24 @@
+@use "sass:map";
+@import "$lib/palette.scss";
+
+/* Constant rules */
+body {
+  margin: 0;
+  transition: background 0.1s ease-out;
+  // min-height: 100vh;
+}
+
+/* Theme affected rules */
+@each $name, $theme in $themes {
+  .#{$name} {
+    @each $color, $value in $theme {
+      .#{$color} {
+        color: $value;
+      }
+    }
+
+    body {
+      background: map.get($theme, "mantle");
+    }
+  }
+}
