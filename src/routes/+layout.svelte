@@ -6,12 +6,18 @@
   $: theme = true
   onMount(() => {
     theme = localStorage.theme === "dark"
+    document.body.classList.remove("no-anim")
   })
   function toggleTheme(): void {
     theme = !theme
     localStorage.theme = theme ? "dark" : "light"
     document.documentElement.classList.toggle("dark")
     document.documentElement.classList.toggle("light")
+  }
+
+  let search: HTMLInputElement
+  function searchFor(): void {
+    if (!search.value) search.focus()
   }
 </script>
 
@@ -36,13 +42,17 @@
 
 <nav id="nav">
   <div class="left">
-    <Button name="Home" icon="Home" />
+    <Button name="Home" icon="Home" href="/" />
   </div>
   <div class="middle"></div>
   <div class="right">
-    <Button name="About" icon="Info" />
-    <Button name="Music" icon="Headphones" />
-    <Button name="Photos" icon="Camera" />
+    <Button name="About" icon="Info" href="/about" />
+    <Button name="Projects" icon="Code" href="/projects" />
+    <Button name="Music" icon="Headphones" href="/music" />
+    <Button name="Photos" icon="Camera" href="/photos" />
+    <Button icon="Search" func={searchFor}>
+      <input type="text" bind:this={search} placeholder="Search..." size="10" />
+    </Button>
     <Button icon={theme ? "Moon" : "Sun"} func={toggleTheme} />
   </div>
 </nav>
@@ -52,6 +62,7 @@
 
 <style lang="scss">
   @use "sass:map";
+  @import "$lib/fonts.scss";
   @import "$lib/palette.scss";
 
   nav {
@@ -71,11 +82,26 @@
   .wrapper {
     height: calc(100vh - 46px);
   }
+
+  input[type="text"] {
+    border: none;
+    font-family: $font;
+    background: none;
+  }
+
   @each $name, $theme in $themes {
     :global(.#{$name}) .wrapper {
       background: map.get($theme, "base");
       border: 2px solid map.get($theme, "crust");
       border-radius: 10px;
+    }
+    :global(.#{$name}) input[type="text"] {
+      color: map.get($theme, "text");
+
+      &::placeholder {
+        color: inherit;
+        font-weight: 700;
+      }
     }
   }
 </style>

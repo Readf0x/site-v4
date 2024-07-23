@@ -7,6 +7,12 @@ body {
   transition: background 0.1s ease-out;
   // min-height: 100vh;
 }
+.no-anim {
+  transition: none !important;
+}
+*:focus {
+  outline: none;
+}
 
 /* Theme affected rules */
 @each $name, $theme in $themes {

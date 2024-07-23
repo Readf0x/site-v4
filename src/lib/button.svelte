@@ -4,25 +4,34 @@ Standard button, can be passed a function to execute on click
 
 <script lang="ts">
   import * as FeatherIcon from "svelte-feathers"
+  import { error } from "@sveltejs/kit"
 
-  export let func: () => void = () => {
-    return
-  }
+  const empty = () => {}
+  export let func: () => void = empty
+  export let href: string = ""
   export let name: string = ""
   export let icon: string = ""
+
+  if (href != "" && func != empty) {
+    throw error(500, "Cannot pass both a function and href")
+  }
+
+  function redirect(): void {
+    window.location.href = href
+  }
 </script>
 
-<button on:click={func}>
+<button on:click={href ? redirect : func}>
   {#if icon}
     <svelte:component this={FeatherIcon[icon]} size="12" />
   {/if}
-  {#if name}
-    <span>
-      <slot>
+  <slot>
+    {#if name}
+      <span>
         {name}
-      </slot>
-    </span>
-  {/if}
+      </span>
+    {/if}
+  </slot>
 </button>
 
 <style lang="scss">
@@ -45,10 +54,6 @@ Standard button, can be passed a function to execute on click
     gap: 3px;
 
     transition: background 0.1s ease-out;
-
-    &:focus {
-      outline: none;
-    }
   }
 
   @each $name, $theme in $themes {
