@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:list";
 @import "$lib/palette.scss";
 
 /* Constant rules */
@@ -14,6 +15,13 @@ body {
   outline: none;
 }
 
+// Generics
+@for $i from 1 through 6 {
+  h#{$i} {
+    font-size: list.nth([3em, 2.5em, 2em, 1.5em, 1.25em, 1em], $i);
+  }
+}
+
 /* Theme affected rules */
 @each $name, $theme in $themes {
   .#{$name} {
@@ -25,6 +33,12 @@ body {
 
     body {
       background: map.get($theme, "mantle");
+    }
+
+    @for $i from 1 through 6 {
+      h#{$i} {
+        color: map.get($theme, list.nth([ "red", "peach", "yellow", "green", "blue", "mauve"], $i));
+      }
     }
   }
 }

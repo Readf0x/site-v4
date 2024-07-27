@@ -18,6 +18,7 @@
   let search: HTMLInputElement
   function searchFor(): void {
     if (!search.value) search.focus()
+    else window.location.href = `/search/?q=${encodeURIComponent(search.value)}`
   }
 </script>
 
@@ -38,6 +39,10 @@
       }
     }
   </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true" />
+  <link href="https://fonts.googleapis.com/css2?family=Sniglet:wght@400;800&display=swap" rel="stylesheet" />
 </svelte:head>
 
 <nav id="nav">
@@ -51,7 +56,13 @@
     <Button name="Music" icon="Headphones" href="/music" />
     <Button name="Photos" icon="Camera" href="/photos" />
     <Button icon="Search" func={searchFor}>
-      <input type="text" bind:this={search} placeholder="Search..." size="10" />
+      <input
+        type="text"
+        bind:this={search}
+        placeholder="Search..."
+        size="20"
+        on:keydown={(e) => e.key === "Enter" && searchFor()}
+      />
     </Button>
     <Button icon={theme ? "Moon" : "Sun"} func={toggleTheme} />
   </div>
@@ -80,6 +91,7 @@
   }
 
   .wrapper {
+    transition: background 0.1s ease-out;
     height: calc(100vh - 46px);
   }
 
@@ -87,6 +99,8 @@
     border: none;
     font-family: $font;
     background: none;
+    font-size: inherit;
+    font-weight: inherit;
   }
 
   @each $name, $theme in $themes {
@@ -100,7 +114,8 @@
 
       &::placeholder {
         color: inherit;
-        font-weight: 700;
+        font-size: inherit;
+        font-weight: inherit;
       }
     }
   }

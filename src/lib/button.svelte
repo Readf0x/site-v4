@@ -45,7 +45,6 @@ Standard button, can be passed a function to execute on click
 
     font-family: $font;
     font-size: 12px;
-    font-weight: 700;
 
     padding: 0 8px;
     min-height: 26px;
